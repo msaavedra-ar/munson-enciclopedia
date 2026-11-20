@@ -1,0 +1,10 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512">
+ <title>Munson — sello lunar</title>
+ <defs><mask id="crescent"><rect width="512" height="512" fill="white"/><circle cx="286" cy="243" r="126" fill="black"/></mask></defs>
+ <g fill="#80602b" stroke="#80602b">
+  <path d="M216 94A178 178 0 1 0 296 94" fill="none" stroke-width="15" stroke-linecap="round"/>
+  <circle cx="256" cy="267" r="137" fill="none" stroke-width="7"/>
+  <circle cx="256" cy="267" r="131" mask="url(#crescent)" stroke="none"/>
+  <path d="M256 33 266 66 295 78 266 89 256 121 246 89 217 78 246 66Z" stroke="none"/>
+ </g>
+</svg>

@@ -9997,4 +9997,45 @@ window.addEventListener('beforeprint',preparePrint);window.addEventListener('aft
 const dots=$('chapter-dots');dots.append(button('',{'data-cover':'true','aria-label':'Portada',title:'Portada'}));chapters.forEach(c=>dots.append(button('',{'data-chapter':c.id,'aria-label':c.title,title:c.title})));
 rebuild();
 })();
+</script><script>
+(()=>{'use strict';
+const counter=document.getElementById('counter');
+let taps=[];
+function showViewportDiagnostic(){
+ if(document.getElementById('viewport-diagnostic'))return;
+ const nav=document.querySelector('.navigator'),next=document.getElementById('next'),vv=window.visualViewport;
+ const rect=e=>{const r=e.getBoundingClientRect();return {top:Math.round(r.top),bottom:Math.round(r.bottom),left:r.left,width:r.width,height:r.height};};
+ const n=rect(nav),b=rect(document.body),btn=rect(next),probe=document.createElement('div');
+ probe.style.cssText='position:absolute;visibility:hidden;pointer-events:none;box-sizing:content-box;height:100vh;padding-top:env(safe-area-inset-top,0px);padding-bottom:env(safe-area-inset-bottom,0px)';
+ document.body.append(probe);
+ const ps=getComputedStyle(probe),safeTop=ps.paddingTop,safeBottom=ps.paddingBottom,vh=ps.height;
+ probe.style.height='100dvh';const dvh=getComputedStyle(probe).height;probe.remove();
+ const installed=!!(navigator.standalone||matchMedia('(display-mode: standalone)').matches);
+ const hit=next.contains(document.elementFromPoint(btn.left+btn.width/2,btn.top+btn.height/2));
+ const lines=[
+ 'Diagnóstico móvil 4',
+ 'Modo: '+(installed?'app instalada':'navegador'),
+ 'Pantalla: '+screen.width+' × '+screen.height,
+ 'Ventana: '+innerWidth+' × '+innerHeight,
+ 'Área visible: '+Math.round(vv?.height||innerHeight)+' / desplazamiento '+Math.round(vv?.offsetTop||0),
+ 'Escala: '+(vv?.scale||1),
+ 'Cuerpo: '+b.top+' → '+b.bottom,
+ 'Barra: '+n.top+' → '+n.bottom,
+ 'Botón: '+btn.top+' → '+btn.bottom,
+ 'Botón accesible: '+(hit?'sí':'no'),
+ 'Área segura arriba/abajo: '+safeTop+' / '+safeBottom,
+ 'Relleno inferior: '+getComputedStyle(nav).paddingBottom,
+ '100vh / 100dvh: '+vh+' / '+dvh,
+ 'Barra de estado: '+(document.querySelector('meta[name="apple-mobile-web-app-status-bar-style"]')?.content||'automática')
+ ];
+ const panel=document.createElement('dialog');panel.id='viewport-diagnostic';panel.setAttribute('aria-label','Diagnóstico de pantalla');
+ panel.style.cssText='position:fixed;inset:0;width:calc(100% - 32px);max-width:440px;max-height:80dvh;margin:auto;padding:20px;background:#f4ead5;color:#262d25;border:1px solid #806e4e;overflow:auto;z-index:10000';
+ const pre=document.createElement('pre');pre.textContent=lines.join('\n');pre.style.cssText='margin:0 0 16px;font:13px/1.6 monospace;white-space:pre-wrap;overflow-wrap:anywhere';
+ const close=document.createElement('button');close.textContent='Cerrar';close.style.cssText='font:16px Arial;min-height:44px;border:1px solid #806e4e;padding:8px 16px';
+ close.addEventListener('click',()=>panel.close());panel.addEventListener('close',()=>panel.remove());
+ panel.append(pre,close);document.body.append(panel);panel.showModal();
+}
+counter?.addEventListener('click',()=>{const now=Date.now();taps=taps.filter(t=>now-t<1600);taps.push(now);if(taps.length>=3){taps=[];showViewportDiagnostic();}});
+if(new URL(location.href).searchParams.get('diagnostic')==='1')setTimeout(showViewportDiagnostic,700);
+})();
 </script></body></html>

@@ -18,9 +18,9 @@ La web se publica en Vercel, en el proyecto `munson-enciclopedia` del equipo `mg
 
 ## Actualizaciones
 
-El primer despliegue se realizó directamente mediante la API de Vercel. Los cambios en GitHub todavía no se publican automáticamente: falta instalar la integración GitHub de Vercel y conectar `msaavedra-ar/munson-enciclopedia`, con `main` como rama de producción.
+El proyecto está conectado a `msaavedra-ar/munson-enciclopedia` mediante la integración de GitHub de Vercel. Cada cambio enviado a `main` genera automáticamente un despliegue de producción y actualiza https://munson-enciclopedia.vercel.app/ cuando termina correctamente.
 
-Hasta conectar esa integración, cada actualización debe desplegarse directamente en el proyecto existente de Vercel. No requiere variables de entorno.
+Las ramas distintas de `main` generan despliegues de vista previa. No requiere variables de entorno.
 
 ## Verificación de la migración
 
